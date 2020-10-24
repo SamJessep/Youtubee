@@ -4,7 +4,7 @@ var server = require('http').createServer(app);
 const YT = require('ytdl-core');
 const fs = require("fs");
 
-const SERVER_PORT = 80;
+const SERVER_PORT = process.env.PORT || 5000;
 const YT_URL = "https://www.youtube.com/watch?v=" 
 
 app.get('/dl', async (req, res) => {
