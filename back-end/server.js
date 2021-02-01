@@ -25,19 +25,28 @@ const YT_URL = "https://www.youtube.com/watch?v="
 
 io.on('connection', (socket) => {
   socket.on('setup', async (url,fn) => {
-    let videoData = await Setup(url)
+    let videoData = {
+      ...await Setup(url),
+      url:url
+    }
     fn(videoData);
   });
 
   socket.on('get download url', async (data,downloadReady) => {
-    let selectedFormat = data.VideoData.formats
+    console.log(data)
+    let selectedFormat = data.selectedFormat
     if(!selectedFormat.hasAudio){
       //Convert video
-      let convertedFile = Convert(data.url, selectedFormat, data.VideoData.duration_s, data.VideoData.title, (data)=>{
-        io.emit("convert progress", data)
-      },file=>downloadReady(hostname+"?file="+file))
+      let convertedFile = Convert(
+        data.url,
+        selectedFormat,
+        data.duration_s,
+        data.title,
+        data=>io.emit("convert progress", data),
+        file=>downloadReady("/download?file="+file)
+      )
     }else{
-      downloadReady(hostname+"/download?url="+data.url+"quality="+selectedFormat.itag)
+      downloadReady("/download?url="+data.url+"quality="+selectedFormat.itag)
     }
   });
 });

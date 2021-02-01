@@ -1,74 +1,105 @@
 <script>
+import {BACKEND_URL, YT_URL, VideoData, SelectedFormat, Download, ClearDownload, WEB_SOCKET_PROTOCOL, BACKEND_PROTOCOL} from './store.js'
 import {io} from "socket.io-client"
-import ProgressMeter from './ProgressMeter.svelte'
+import ConversionStatusIndicator from './ConversionStatusIndicator.svelte'
+import InputBar from './InputBar.svelte'
+import DropDown from './DropDown.svelte';
+import Preview from './Preview.svelte';
+import { fly } from 'svelte/transition';
 
-const backend = "localhost:5050"
-const YT_URL = "https://www.youtube.com/watch?v="
-var socket = io("http://"+backend);
-//UPDATE TO USE wss:// and https://
-let lastValue=""
-let currentURL
-let format
-let conversionProgress
-let VideoData
-$:VideoData
 
-async function Validate(e){
-	if(lastValue == e.target.value) return
-	lastValue = e.target.value
-	console.log(e)
-	let url = "http://"+backend+"/validate?id="+e.target.value
-	let valueIsURL = e.target.value.includes('youtube') || e.target.value.includes('youtu.be')
-	if(valueIsURL){
-		url = "http://"+backend+"/validate?url="+e.target.value
-	}
-	let res = await fetch(url)
-	let text = await res.text()
-	if(text == 'valid'){
-		Load(e.target.value, valueIsURL)
-	}
-}
-
-function Load(id,isURL){
-	currentURL = isURL ? id : YT_URL+id
-		socket.emit('setup', id, (data)=>{
-			VideoData = data;
-			VideoData.Image = VideoData.thumbnails[VideoData.thumbnails.length-1]
-			console.log(data)
+var socket = io(WEB_SOCKET_PROTOCOL+BACKEND_URL);
+let conversionProgress = 0
+let dl_window
+//Download.set({status:"ready", url:"TEST"})
+function Load(data){
+		socket.emit('setup', data.detail.url, (data)=>{
+			$VideoData = {
+				...$VideoData,
+				...data,
+				Image:data.thumbnails[data.thumbnails.length-1]
+			};
+			$SelectedFormat = data.formats[0]
 		});
 }
 
 function Start(){
-	alert(currentURL)
-	let tmpData = VideoData
-	tmpData.formats = tmpData.formats[format]
-	socket.emit('get download url', {url:currentURL,VideoData:tmpData}, (url)=>alert(url))
+	Download.set({status:"waiting"})
+	let tmpData = $VideoData
+	tmpData.selectedFormat = $SelectedFormat
+	socket.emit('get download url', tmpData, (url)=>{
+		Download.set({status:"ready",url:BACKEND_PROTOCOL+BACKEND_URL+url})
+		dl_window.src=$Download.url
+	})
 }
 
 socket.on('convert progress', (msg)=>{
-	console.log(msg)
 	conversionProgress = msg.percent
+	Download.set({status:"converting", progress:msg.percent})
 })
 
 </script>
 
 <main>
-	<input placeholder="paste a Youtube video url here" on:change={Validate} autocomplete='off'
-on:keyup={Validate} on:paste={Validate} on:input={Validate}/>
-	{#if VideoData}
-	<select bind:value={format}>
-	{#each VideoData.formats as format,index}
-	<option value={index}>{format.quality}</option>
-	{:else}
-	<option disabled>Opps no formats available</option>
-	{/each}
-	</select>
-	<button on:click={Start}>Start</button>
-	<div>
-		<h2>{VideoData.title}</h2>
-		<img src={VideoData.Image.url}/>
-		<small>{VideoData.description}</small>
+	<iframe bind:this={dl_window}/>
+	<div id="topBar">
+		<InputBar on:loadVideo={Load}/>
+		{#if $VideoData}
+			<DropDown
+			on:itemSelected={(e)=>console.log(e)}
+			formats={$VideoData.formats}
+			/>
+		{/if}
 	</div>
-	<ProgressMeter progress={conversionProgress}/>
+	{#if $VideoData}
+		<div id="actionContainer" transition:fly="{{ y: 200, duration: 1000 }}">
+			{#if !$Download.status}
+			<button id="startBtn" class="button is-success is-fullwidth" on:click={Start}>
+				<span class="icon is-small">
+					<i class="fas fa-chevron-right"></i>
+				</span>
+				<span>{$SelectedFormat.hasAudio? 'Download' : 'Convert'}</span>
+			</button>
+			{/if}
+				<ConversionStatusIndicator progress={conversionProgress}/>
+		</div>
+		<Preview data={$VideoData}/>
 	{/if}
 </main>
+
+<style>
+
+main{
+	width: 100vw;
+	min-height: 100vh;
+	padding: 1rem 2rem;
+	padding-bottom: 5rem;
+}
+
+iframe{
+	display: none;
+}
+
+#topBar{
+  display: flex;
+  justify-content: space-evenly;
+}
+#actionContainer{
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	width: 100vw;
+	height: 5rem;
+	transform: translateX(-50%);
+	background-color: var(--ButtonColor);
+	color: var(--ButtonTextColor);
+}
+
+#startBtn{
+	height: 100%;
+	font-size: 5vmin;
+  text-align: center;
+}
+
+
+</style>
