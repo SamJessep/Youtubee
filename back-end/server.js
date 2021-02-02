@@ -99,10 +99,13 @@ app.get('/download',async (req, res) => {
   let downloadStream
   let outFileType
   let outFileName
+  let contentLength
   if(combinedFile){
     const fileName = __dirname+"/"+combinedFile;
     var extension = path.extname(fileName);
     var name = path.basename(fileName,extension);
+    var stats = fs.statSync(fileName)
+    contentLength = stats.size;
     console.log("COMBINED", fileName, extension, name)
     downloadStream = fs.createReadStream(fileName);
     outFileType=extension.slice(1)
@@ -117,6 +120,7 @@ app.get('/download',async (req, res) => {
       res.end("Request needs either a processed file or video id and itag")
     }
     let videoData = await GetQuality(YT_URL+videoID, selectedItag)
+    contentLength = videoData.contentLength
     let selectedFormat = videoData.formats[0]
     outFileType=selectedFormat.mimeType.split('/')[1]
     outFileName=videoData.title.slice(0,10)
