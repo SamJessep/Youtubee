@@ -100,7 +100,7 @@ app.get('/download',async (req, res) => {
   let outFileType
   let outFileName
   if(combinedFile){
-    const fileName = __dirname+"\\"+combinedFile;
+    const fileName = __dirname+"/"+combinedFile;
     var extension = path.extname(fileName);
     var name = path.basename(fileName,extension);
     console.log("COMBINED", fileName, extension, name)
