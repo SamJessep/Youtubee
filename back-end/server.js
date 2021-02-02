@@ -109,6 +109,7 @@ app.get('/download',async (req, res) => {
   else{
     let videoID = req.query.id
     let selectedItag = req.query.itag
+    console.log("NOT COMBINED", videoID, selectedItag)
     if(!videoID || !selectedItag){
       //return Error
       res.end("Request needs either a processed file or video id and itag")
