@@ -132,7 +132,7 @@ app.get('/download',async (req, res) => {
     }
   }
   res.header('Content-Disposition', `attachment; filename=${outFileName.replace(/[^a-z0-9]/gi, '_')}.${outFileType}`);
-  //res.header('Content-Length', '109291000')
+  res.header('Content-Length', contentLength)
   downloadStream.on('open', function () {
     downloadStream.pipe(res);
   });
