@@ -59,6 +59,7 @@ app.get('/validate', async (req, res) => {
       await ytdl.getBasicInfo(url)
       return res.end('valid')
     }catch(e){
+      console.error(e)
       //Video url is invalid
       return res.end('invalid')
     }
