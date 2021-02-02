@@ -102,6 +102,7 @@ app.get('/download',async (req, res) => {
     const fileName = __dirname+"\\"+combinedFile;
     var extension = path.extname(fileName);
     var name = path.basename(fileName,extension);
+    console.log("COMBINED", fileName, extension, name)
     downloadStream = fs.createReadStream(fileName);
     outFileType=extension.slice(1)
     outFileName=name
