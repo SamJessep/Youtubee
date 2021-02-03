@@ -1,11 +1,20 @@
 {
   "short_name": "Youtubee",
-  "name": "Youtubee: Youtube downloader",
+  "name": "Youtube downloader",
 	"start_url": "/?source=pwa",
-  "background_color": "#FF0000",
+  "background_color": "#2f00ff",
   "display": "standalone",
-  "theme_color": "#FF0000",
-  "description": "Weather forecast information",
+  "theme_color": "#2f00ff",
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "description": "Youtube downloader app",
   "prefer_related_applications": false,
   "icons": [
     {
