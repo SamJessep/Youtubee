@@ -1,3 +1,6 @@
+<label id="accessibiltyLabel" for="videoInput">
+Youtube URL
+</label>
 <div>
   <div
   class="control textfield"
@@ -5,6 +8,7 @@
   class:has-icons-right={hasStatus}
   >
     <input
+      id="videoInput"
       class="input"
       class:is-success={inputStatus == "valid"}
       class:is-danger={inputStatus == "invalid"}
@@ -26,6 +30,9 @@
 </div>
 
 <style>
+#accessibiltyLabel{
+  /* display: none; */
+}
 
 .textfield{
   display: block;
