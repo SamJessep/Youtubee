@@ -23,7 +23,6 @@ const {Setup, Download, GetQuality, Convert} = require('./downloader.js')
 const SERVER_PORT = process.env.PORT || 5050;
 const YT_URL = "https://www.youtube.com/watch?v="
 var Sockets = []
-io.on('')
 
 io.on('connection', (socket) => {
   Sockets.push(socket.id)
