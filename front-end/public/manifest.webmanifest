@@ -2,9 +2,9 @@
   "short_name": "Youtubee",
   "name": "Youtube downloader",
 	"start_url": "/?source=pwa",
-  "background_color": "#2f00ff",
+  "background_color": "#350093",
   "display": "standalone",
-  "theme_color": "#2f00ff",
+  "theme_color": "#350093",
   "share_target": {
     "action": "/",
     "method": "GET",
