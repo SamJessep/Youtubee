@@ -59,16 +59,13 @@ let hasStatus = true;
 
 let lastValue=""
 let currentURL
-let currentValue = QueryToJSON(document.location.search.slice(1)).id || ""
+let currentValue = getSearchParam('url') || getSearchParam('id') || ""
 if(currentValue) Validate()
 
-function QueryToJSON(queryString){
-  try{
-    return JSON.parse('{"' + decodeURI(queryString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
-  }
-  catch(e){
-    return {}
-  }
+function getSearchParam(param){
+  const parsedUrl = new URL(window.location);
+  console.log(param,"=",parsedUrl.searchParams.get(param))
+  return parsedUrl.searchParams.get(param)
 }
 async function Validate(e){
   if(currentValue == "") inputStatus=""
