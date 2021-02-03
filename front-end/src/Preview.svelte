@@ -24,7 +24,8 @@ pre{
 img{
 	margin: 0 auto;
 	display: block;
-	max-width: 400px;
+  max-width: 100%;
+  max-height: 50vh;
 }
 
 </style>

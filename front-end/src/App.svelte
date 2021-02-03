@@ -10,7 +10,6 @@ import { fly } from 'svelte/transition';
 
 var socket = io(WEB_SOCKET_PROTOCOL+BACKEND_URL);
 let conversionProgress = 0
-let dl_window
 //Download.set({status:"ready", url:"TEST"})
 function Load(data){
 		socket.emit('setup', data.detail.url, (data)=>{
@@ -29,7 +28,7 @@ function Start(){
 	tmpData.selectedFormat = $SelectedFormat
 	socket.emit('get download url', tmpData, (url)=>{
 		Download.set({status:"ready",url:BACKEND_PROTOCOL+BACKEND_URL+url})
-		dl_window.src=$Download.url
+		window.location.href=$Download.url
 	})
 }
 
@@ -41,7 +40,6 @@ socket.on('convert progress', (msg)=>{
 </script>
 
 <main>
-	<iframe bind:this={dl_window}/>
 	<div id="topBar">
 		<InputBar on:loadVideo={Load}/>
 		{#if $VideoData}
@@ -55,10 +53,10 @@ socket.on('convert progress', (msg)=>{
 		<div id="actionContainer" transition:fly="{{ y: 200, duration: 1000 }}">
 			{#if !$Download.status}
 			<button id="startBtn" class="button is-success is-fullwidth" on:click={Start}>
+				<span>{$SelectedFormat.hasAudio? 'Download' : 'Convert'}</span>
 				<span class="icon is-small">
 					<i class="fas fa-chevron-right"></i>
 				</span>
-				<span>{$SelectedFormat.hasAudio? 'Download' : 'Convert'}</span>
 			</button>
 			{/if}
 				<ConversionStatusIndicator progress={conversionProgress}/>
@@ -70,7 +68,6 @@ socket.on('convert progress', (msg)=>{
 <style>
 
 main{
-	width: 100vw;
 	min-height: 100vh;
 	padding: 1rem 2rem;
 	padding-bottom: 5rem;
@@ -83,12 +80,14 @@ iframe{
 #topBar{
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 #actionContainer{
+	z-index: 30;
 	position: fixed;
 	bottom: 0;
 	left: 50%;
-	width: 100vw;
+	width: 100%;
 	height: 5rem;
 	transform: translateX(-50%);
 	background-color: var(--ButtonColor);
@@ -97,7 +96,7 @@ iframe{
 
 #startBtn{
 	height: 100%;
-	font-size: 5vmin;
+	font-size: 2rem;
   text-align: center;
 }
 

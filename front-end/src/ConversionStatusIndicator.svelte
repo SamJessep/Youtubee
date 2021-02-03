@@ -9,7 +9,7 @@ export let progress = 0;
   <span class="msg">Requesting your file, please wait</span>
 {:else if $Download.status == "converting"}
   <progress class="progress is-large loadingBar" value={Math.round(progress)} max="100">{Math.round(progress)}</progress>
-  <span class="msg">Loading {Math.round(progress)}%</span>
+  <span class="msg">Preparing {Math.round(progress)}%</span>
 {:else if $Download.status == "ready" && $Download.url}
   <h2>Your file is ready</h2>
   <p><a href={$Download.url}>Click here</a> if your download doesnt start automatically</p>
@@ -20,7 +20,7 @@ export let progress = 0;
 #container{
   width: 100%;
   height: 100%;
-  padding: 1rem 3rem;
+  padding: 0.5rem 2rem;
 }
 
 .msg{
