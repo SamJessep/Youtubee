@@ -22,8 +22,14 @@ const {Setup, Download, GetQuality, Convert} = require('./downloader.js')
 
 const SERVER_PORT = process.env.PORT || 5050;
 const YT_URL = "https://www.youtube.com/watch?v="
+var Sockets = []
+io.on('')
 
 io.on('connection', (socket) => {
+  Sockets.push(socket.id)
+  socket.on('disconnect', () => {
+    Sockets = Sockets.filter(s=>s.id!=socket.id)
+  });
   socket.on('setup', async (url,fn) => {
     let videoData = {
       ...await Setup(url),
@@ -42,7 +48,7 @@ io.on('connection', (socket) => {
         selectedFormat,
         data.duration_s,
         data.title,
-        data=>io.emit("convert progress", data),
+        data=>io.to(socket.id).emit("convert progress", data),
         file=>downloadReady("/download?file="+file)
       )
     }else{
