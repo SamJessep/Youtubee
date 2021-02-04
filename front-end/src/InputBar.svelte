@@ -1,42 +1,50 @@
-<label id="accessibiltyLabel" for="videoInput">
-Youtube URL
-</label>
-<div>
-  <div
-  class="control textfield"
-  class:is-loading={inputStatus == "loading"}
-  class:has-icons-right={hasStatus}
-  >
-    <input
-      id="videoInput"
-      class="input"
-      class:is-success={inputStatus == "valid"}
-      class:is-danger={inputStatus == "invalid"}
-      placeholder="Paste a Youtube video url here"
-      autocomplete='off'
-      bind:value={currentValue}
-      on:change={Validate}
-      on:keyup={Validate}
-      on:paste={Validate}
-      on:input={Validate}
-    />
-    <span class="icon is-small is-right">
-      <i class="fas"
-        class:fa-check={inputStatus == "valid"}
-        class:fa-exclamation-triangle={inputStatus == "invalid"}
-      ></i>
-    </span>
+<div id="topbarchild" class:hasNoVideoData={!$VideoData}>
+  <label for="videoInput">
+    <span class="screenreader">Youtube URL</span>
+  </label>
+  <div>
+    <div
+    class="control textfield"
+    class:is-loading={inputStatus == "loading"}
+    class:has-icons-right={hasStatus}
+    >
+      <input
+        id="videoInput"
+        class="input"
+        class:is-success={inputStatus == "valid"}
+        class:is-danger={inputStatus == "invalid"}
+        placeholder="Paste a Youtube video url here"
+        autocomplete='off'
+        bind:value={currentValue}
+        on:change={Validate}
+        on:keyup={Validate}
+        on:paste={Validate}
+        on:input={Validate}
+      />
+      <span class="icon is-small is-right">
+        <i class="fas"
+          class:fa-check={inputStatus == "valid"}
+          class:fa-exclamation-triangle={inputStatus == "invalid"}
+        ></i>
+      </span>
+    </div>
   </div>
 </div>
 
 <style>
-#accessibiltyLabel{
-  /* display: none; */
+label{
+  height: 0;
+  width: 0;
+}
+.screenreader{
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .textfield{
   display: block;
-  width: 60vw;
+  width: 75vw;
 }
 
 .fa-exclamation-triangle{
@@ -45,6 +53,14 @@ Youtube URL
 
 .fa-check{
   color:green;
+}
+#topbarchild{
+  transition: 0.5s;
+  padding-top: 0;
+}
+
+#topbarchild.hasNoVideoData{
+  padding-top: 40vh;
 }
 </style>
 
@@ -90,5 +106,9 @@ async function Validate(e){
 
 function LoadValidURL(url){
   dispatch('loadVideo', {url: url});
+  if (history.pushState) {
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?url="+url;
+    window.history.pushState({path:newurl},'',newurl);
+  }
 }
 </script>

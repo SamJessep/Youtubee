@@ -74,7 +74,7 @@ function makeSections(formats){
   }
   let secondSection=[]
   for(let section in sections){
-    secondSection = [...secondSection, {name:section,items:sections[section]}]
+    secondSection = [...secondSection, {name:section,items:sections[section].filter(f=>f.contentLength)}]
   }
   return secondSection
 }

@@ -6,7 +6,7 @@ import { fly } from 'svelte/transition';
 
 <div>
   <h2 transition:fly="{{ y: -200, duration: 800 }}">{data.title}</h2>
-  <img src={data.Image.url} transition:fly="{{ x: -1000, duration: 1000 }}"/>
+  <img src={data.Image.url} alt={data.title} transition:fly="{{ x: -1000, duration: 1000 }}"/>
   <pre transition:fly="{{ y: 200, duration: 1000 }}">{data.description}</pre>
 </div>
 
@@ -19,6 +19,9 @@ h2{
 
 pre{
   white-space: pre-wrap;
+  padding: 0;
+  padding-top: 1rem;
+  background-color: transparent;
 }
 
 img{
