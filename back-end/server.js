@@ -12,7 +12,7 @@ const io = require('socket.io')(server, {
   }
 });
 const path = require("path");
-
+const {SendNotification} = require('./pushNotifications.js')
 var ytdl = require('ytdl-core');
 
 var os = require("os");
@@ -39,6 +39,11 @@ io.on('connection', (socket) => {
 
   socket.on('get download url', async (data,downloadReady) => {
     console.log(data)
+    if(data.notificationSubscription){
+      SendNotification(data.notificationSubscription, JSON.stringify({
+        status: "preparing_file"
+      }))
+    }
     let selectedFormat = data.selectedFormat
     if(!selectedFormat.hasAudio){
       //Convert video
@@ -48,7 +53,15 @@ io.on('connection', (socket) => {
         data.duration_s,
         data.title,
         data=>io.to(socket.id).emit("convert progress", data),
-        file=>downloadReady("/download?file="+file)
+        file=>{
+          if(data.notificationSubscription){
+            SendNotification(data.notificationSubscription,  JSON.stringify({
+              status: "download_ready",
+              url:"/download?file="+file
+            }))
+          }
+          downloadReady("/download?file="+file)
+        }
       )
     }else{
       downloadReady("/download?url="+data.url+"quality="+selectedFormat.itag)

@@ -26,6 +26,7 @@ function Start(){
 	Download.set({status:"waiting"})
 	let tmpData = $VideoData
 	tmpData.selectedFormat = $SelectedFormat
+	tmpData.notificationSubscription = userSubscription
 	socket.emit('get download url', tmpData, (url)=>{
 		Download.set({status:"ready",url:BACKEND_PROTOCOL+BACKEND_URL+url})
 		window.location.href=$Download.url

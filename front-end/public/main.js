@@ -1,6 +1,7 @@
 // Register the service worker if available.
 const applicationServerPublicKey = "BOYuHV4mnhvdYjV_q8GOXI9pY8t-J0Z_2kdS6pFhPGAXwXtQPOUwZnSL513P-_Xv75FJMEDIx-lJ2kwMisTOQ1o"
 var swRegistration;
+var userSubscription
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
     navigator.serviceWorker.register('./sw.js').then(function(reg) {
@@ -48,6 +49,7 @@ function initializeUI() {
 
     if (isSubscribed) {
       console.log('User IS subscribed.');
+      userSubscription = subscription
     } else {
       subscribeUser();
       console.log('User is NOT subscribed.');
@@ -64,6 +66,7 @@ function subscribeUser() {
   .then(function(subscription) {
     console.log('User is subscribed.');
     updateSubscriptionOnServer(subscription);
+    userSubscription = subscription
     isSubscribed = true;
   })
   .catch(function(err) {
