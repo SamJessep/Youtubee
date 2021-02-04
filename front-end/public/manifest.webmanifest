@@ -17,13 +17,13 @@
 	"background_color": "#350093",
 	"display": "standalone",
 	"share_target": {
-		"title" : "Download Video",
+		"title": "Download Video",
 		"action": "/",
 		"method": "GET",
 		"params": {
 			"title": "name",
-	        	"text": "description",
-        		"url": "url"
+			"url": "url",
+			"text": "description",
 		}
 	},
 	"description": "Youtube downloader app",
