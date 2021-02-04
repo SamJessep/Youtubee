@@ -23,7 +23,7 @@
 		"params": {
 			"title": "name",
 	        	"text": "description",
-        		"url": "link"
+        		"url": "url"
 		}
 	},
 	"description": "Youtube downloader app",
