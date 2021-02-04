@@ -1,5 +1,5 @@
 // Use a cacheName for cache versioning
-var CACHE_STORE = 'v1:static';
+var CACHE_STORE = 'v2:static';
 var $FILES = ['./']
 caches.delete('v1:static');
 // During the installation phase, you'll usually want to cache static assets.
