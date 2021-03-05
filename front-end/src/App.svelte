@@ -41,6 +41,7 @@ socket.on('convert progress', (msg)=>{
 </script>
 
 <main>
+	<img id="icon" src="icons/header-color.png" alt="Youtubee logo">
 	<div id="topBar">
 		<InputBar on:loadVideo={Load}/>
 		{#if $VideoData}
@@ -67,6 +68,12 @@ socket.on('convert progress', (msg)=>{
 </main>
 
 <style>
+
+#icon{
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
 
 main{
 	min-height: 100vh;

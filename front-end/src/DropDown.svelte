@@ -41,13 +41,6 @@ import {VideoData, SelectedFormat,ClearDownload} from './store.js';
 export let formats;
 let open = false
 
-// VideoData.subscribe($val=>{
-//   if($val){
-//     formatIndex = 0
-//     $SelectedFormat = $val.formats[formatIndex]
-//   }
-// })
-
 function getVideoFormat(format){
   return format.mimeType.split(';')[0].split('/')[1]
 }

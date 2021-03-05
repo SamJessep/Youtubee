@@ -1,4 +1,4 @@
-importScripts('/cache-polyfill.js');
+//importScripts('/cache-polyfill.js');
 const CACHE_NAME="youtubee"
 const BACKEND_URL = "youtube--backend.herokuapp.com"//"http://localhost:5050"
 self.addEventListener('install', function(e) {

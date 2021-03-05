@@ -60,7 +60,7 @@ label{
 }
 
 #topbarchild.hasNoVideoData{
-  padding-top: 40vh;
+  padding-top: 20vh;
 }
 </style>
 
@@ -80,7 +80,6 @@ if(currentValue) Validate()
 
 function getSearchParam(param){
   const parsedUrl = new URL(window.location);
-  console.log(param,"=",parsedUrl.searchParams.get(param))
   return parsedUrl.searchParams.get(param)
 }
 async function Validate(e){
