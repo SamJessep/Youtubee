@@ -5,7 +5,7 @@ import ConversionStatusIndicator from './ConversionStatusIndicator.svelte'
 import InputBar from './InputBar.svelte'
 import DropDown from './DropDown.svelte';
 import Preview from './Preview.svelte';
-import { fly } from 'svelte/transition';
+import { fly, fade } from 'svelte/transition';
 
 
 var socket = io(WEB_SOCKET_PROTOCOL+BACKEND_URL);
@@ -41,7 +41,7 @@ socket.on('convert progress', (msg)=>{
 </script>
 
 <main>
-	<img id="icon" src="icons/header-color.png" alt="Youtubee logo">
+	<img id="icon" src="icons/header-color.png" alt="Youtubee logo" in:fade>
 	<div id="topBar">
 		<InputBar on:loadVideo={Load}/>
 		{#if $VideoData}
