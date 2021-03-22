@@ -1,5 +1,7 @@
 # Youtubee
 
+[![Deploy](https://github.com/SamJessep/Youtubee/actions/workflows/main.yml/badge.svg)](https://github.com/SamJessep/Youtubee/actions/workflows/main.yml)
+
 youtubee is a web app and progressive web app that can be used to download videos from youtube.
 
 when used in the browser it has the basic functionalities where the user can paste a youtube url and download the video.
