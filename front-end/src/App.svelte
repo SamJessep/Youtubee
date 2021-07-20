@@ -6,6 +6,7 @@ import InputBar from './InputBar.svelte'
 import DropDown from './DropDown.svelte';
 import Preview from './Preview.svelte';
 import { fly, fade } from 'svelte/transition';
+import ContactBar from 'contact-bar'
 
 
 var socket = io(WEB_SOCKET_PROTOCOL+BACKEND_URL);
@@ -38,6 +39,21 @@ socket.on('convert progress', (msg)=>{
 	Download.set({status:"converting", progress:msg.percent})
 })
 
+const LOCALSTORAGE_BLOCK_PWA_POPUP = "pwa_blocked"
+
+var showPWABanner = false
+var InstallPwa = ()=>console.error("PWA wasnt ready to be installed")
+const ShowPWABanner = e =>{
+	e.preventDefault()
+	showPWABanner= !localStorage.getItem(LOCALSTORAGE_BLOCK_PWA_POPUP) ?? true
+	InstallPwa = ()=>e.prompt()
+}
+
+const DontShowPwaBannerAgain = () =>{
+	showPWABanner=false
+	localStorage.setItem(LOCALSTORAGE_BLOCK_PWA_POPUP, true)
+}
+
 </script>
 
 <main>
@@ -52,20 +68,48 @@ socket.on('convert progress', (msg)=>{
 		{/if}
 	</div>
 	{#if $VideoData}
-		<div id="actionContainer" transition:fly="{{ y: 200, duration: 1000 }}">
-			{#if !$Download.status}
-			<button id="startBtn" class="button is-success is-fullwidth" on:click={Start}>
-				<span>{$SelectedFormat.hasAudio? 'Download' : 'Convert'}</span>
-				<span class="icon is-small">
-					<i class="fas fa-chevron-right"></i>
-				</span>
-			</button>
-			{/if}
-				<ConversionStatusIndicator progress={conversionProgress}/>
-		</div>
 		<Preview data={$VideoData}/>
 	{/if}
 </main>
+
+<footer class:bottomButtonShown={$VideoData}>
+	<ContactBar
+	height="3rem"
+	theme="light"
+	links={{
+		twitter:"https://twitter.com/SamJessep",
+		linkedin:"https://www.linkedin.com/in/samjessep/",
+		github:"https://github.com/SamJessep"
+	}}
+	/>
+</footer>
+
+
+<div class="fixedbar">
+	{#if showPWABanner}
+		<aside class="banner" transition:fly="{{ x: 200, duration: 1000 }}">
+			Did you know, if you <span style="color:purple; cursor:pointer;" on:click={InstallPwa}>install</span> youtubee you can download videos via the youtube app
+			<button on:click={()=>showPWABanner=false}>Close</button>
+			<button on:click={DontShowPwaBannerAgain}>Dont show again</button>
+		</aside>
+	{/if}
+	{#if $VideoData}
+	<div id="actionContainer" transition:fly="{{ y: 200, duration: 1000 }}">
+		{#if !$Download.status}
+		<button id="startBtn" class="button is-success is-fullwidth" on:click={Start}>
+			<span>{$SelectedFormat.hasAudio? 'Download' : 'Convert'}</span>
+			<span class="icon is-small">
+				<i class="fas fa-chevron-right"></i>
+			</span>
+		</button>
+		{/if}
+			<ConversionStatusIndicator progress={conversionProgress}/>
+	</div>
+	{/if}
+</div>
+
+
+<svelte:window on:beforeinstallprompt={e=>ShowPWABanner(e)} />
 
 <style>
 
@@ -76,13 +120,12 @@ socket.on('convert progress', (msg)=>{
 }
 
 main{
-	min-height: 100vh;
 	padding: 1rem 2rem;
-	padding-bottom: 5rem;
+	flex-grow:1;
 }
 
-iframe{
-	display: none;
+footer.bottomButtonShown{
+	padding-bottom: 4rem;
 }
 
 #topBar{
@@ -91,13 +134,8 @@ iframe{
   flex-wrap: wrap;
 }
 #actionContainer{
-	z-index: 30;
-	position: fixed;
-	bottom: 0;
-	left: 50%;
 	width: 100%;
-	height: 5rem;
-	transform: translateX(-50%);
+	height: 4rem;
 	background-color: var(--ButtonColor);
 	color: var(--ButtonTextColor);
 }
@@ -108,5 +146,28 @@ iframe{
   text-align: center;
 }
 
+.banner button{
+	color:white;
+	background-color: #4e23a0;
+	border: solid 2px #4e23a0;
+	border-radius: 0.5rem;
+}
 
+.banner{
+	padding: 1rem;
+	background-color: #e0e0e0f5;
+	border-radius: 12px;
+	margin: 0.5rem;
+	box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+}
+
+
+.fixedbar{
+	display:flex;
+	flex-direction: column;
+	position: fixed;
+	bottom: 0;
+	z-index: 30;
+	width: 100%;
+}
 </style>

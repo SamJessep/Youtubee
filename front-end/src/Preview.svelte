@@ -15,6 +15,7 @@ h2{
   text-align: center;
   font-weight: bold;
   font-size: large;
+  margin: 1rem 0;
 }
 
 pre{
@@ -29,6 +30,8 @@ img{
 	display: block;
   max-width: 100%;
   max-height: 50vh;
+  box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
+  border-radius: 10px;
 }
 
 </style>
