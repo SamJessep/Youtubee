@@ -29,6 +29,9 @@
       </span>
     </div>
   </div>
+  {#if inputStatus == "invalid"}
+  <StatusMessage message={INVALID_URL_MESSAGE} state="error"/>
+  {/if}
 </div>
 
 <style>
@@ -65,9 +68,19 @@ label{
 </style>
 
 <script>
-import {BACKEND_URL, YT_URL, VideoData, SelectedFormat, Download,  ClearDownload, BACKEND_PROTOCOL} from './store.js';
+import {BACKEND_URL, YT_URL, VideoData, ClearDownload, BACKEND_PROTOCOL} from './store.js';
+import StatusMessage from './StatusMessage.svelte'
 import { createEventDispatcher } from 'svelte';
 const dispatch = createEventDispatcher();
+
+const INVALID_URL_MESSAGE = `
+  <span style='font-weight:bold;'>Invalid URL</span><br/>
+  it should look like "https://www.youtube.com/watch?v=VIDEO_ID_HERE" (Desktop) <br/> 
+  or <br/> 
+  "https://youtu.be/VIDEO_ID_HERE" (Mobile)<br/>
+  or <br/> 
+  "VIDEO_ID"
+` 
 
 export let inputStatus = '';
 let initial = true;
