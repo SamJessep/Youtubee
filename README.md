@@ -15,7 +15,11 @@ The frontend is build using [Svelte](https://svelte.dev/)
 ## Demo
 
 ### Copy url into Youtubee
-[![Youtubee](https://user-images.githubusercontent.com/45475939/124421048-c55d2600-ddb4-11eb-8996-b810af998076.gif)](https://youtubee.tk/)
+<a href="https://youtubee.tk/?url=https://www.youtube.com/watch?v=JKVZMqpiY7w" title="Youtubee">
+<img src="https://user-images.githubusercontent.com/45475939/124421048-c55d2600-ddb4-11eb-8996-b810af998076.gif" width="300"/>
+</a>
 
 ### Using Youtubee as a share target from Youtube
-[![Share target](https://user-images.githubusercontent.com/45475939/126238763-0683e6ee-6799-4288-8e59-9822a128afb3.gif)](https://youtubee.tk/)
+<a href="https://youtubee.tk/?url=https://www.youtube.com/watch?v=JKVZMqpiY7w" title="Share target">
+<img src="https://user-images.githubusercontent.com/45475939/124421048-c55d2600-ddb4-11eb-8996-b810af998076.gif" width="300"/>
+</a>
