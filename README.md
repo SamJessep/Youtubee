@@ -1,6 +1,7 @@
 # Youtubee
 
 [![Deploy](https://github.com/SamJessep/Youtubee/actions/workflows/main.yml/badge.svg)](https://github.com/SamJessep/Youtubee/actions/workflows/main.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e97616b2-c5e8-4de3-88af-200f80652234/deploy-status)](https://app.netlify.com/sites/nervous-swartz-3b7ca3/deploys)
 
 [Youtubee](https://youtubee.tk/) is a progressive web app that can be used to download videos from youtube.
 
