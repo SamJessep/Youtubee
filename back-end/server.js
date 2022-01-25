@@ -38,7 +38,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('get download url', async (data,downloadReady) => {
-    console.log(data)
     if(data.notificationSubscription){
       SendNotification(data.notificationSubscription, JSON.stringify({
         status: "preparing_file"
@@ -57,7 +56,8 @@ io.on('connection', (socket) => {
           if(data.notificationSubscription){
             SendNotification(data.notificationSubscription,  JSON.stringify({
               status: "download_ready",
-              url:"/download?file="+file
+              url:"/download?file="+file,
+              title:data.title
             }))
           }
           downloadReady("/download?file="+file)

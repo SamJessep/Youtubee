@@ -125,7 +125,7 @@ const CleanUpStorage = ()=>{
       let f_path = path.join(__dirname, 'videos/'+file)
       const stats = fs.statSync(f_path)
       let ageMs = new Date() - new Date(stats.mtime)
-      if(ageMs>15*60*60){
+      if(ageMs>15*60*1000){
         console.log("Deleting", file)
         fs.unlinkSync(f_path)
       }

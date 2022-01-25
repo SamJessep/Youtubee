@@ -1,6 +1,5 @@
-//importScripts('/cache-polyfill.js');
 const CACHE_NAME="youtubee"
-const BACKEND_URL = "youtube--backend.herokuapp.com"//"http://localhost:5050"
+const BACKEND_URL = "youtube--backend.herokuapp.com"
 self.addEventListener('install', function(e) {
  e.waitUntil(
    caches.open(CACHE_NAME).then(function(cache) {
@@ -36,8 +35,9 @@ self.addEventListener('push', function(event) {
         if(pageVisible) return
         if(serverData.status == 'download_ready'){
           const title = 'Your download is ready';
+          console.log(event.data.json())
           const options = {
-            body: "event.data.text()",
+            body: `"${event.data.json().title}" is ready, click here to download`,
             icon: '/icons/download-notification.png',
             badge: '/icons/download-notification.png',
             //image: video thumbnail,
@@ -61,17 +61,14 @@ self.addEventListener('push', function(event) {
 self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Notification click Received.', event);
   event.notification.close();
-  let process
-
   if ('actions' in Notification.prototype) {
   // Action buttons are supported.
     if(event.action == "download"){
       //Download file directly
-      // event.data.json()
-      // event.data.text()
       event.waitUntil(clients.openWindow(BACKEND_URL + serverData.url))
     }else if (event.action == "cancel"){
       //Delete file from server
+      if("close" in Notification) Notification.close()
     }else {
       //Show download screen gui
     }
