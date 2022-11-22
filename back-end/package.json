@@ -16,7 +16,7 @@
     "ffmpeg-static": "^4.4.1",
     "fluent-ffmpeg": "^2.1.2",
     "nodemon": "^2.0.6",
-    "socket.io": "^4.4.1",
+    "socket.io": "^4.5.3",
     "web-push": "^3.4.5",
     "ytdl": "^1.4.1",
     "ytdl-core": "^4.10.0"
