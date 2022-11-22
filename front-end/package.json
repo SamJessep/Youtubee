@@ -19,7 +19,7 @@
   "dependencies": {
     "contact-bar": "git+https://github.com/SamJessep/ContactBar.git",
     "sirv-cli": "^1.0.12",
-    "socket.io": "^3.1.2",
+    "socket.io": "^4.5.3",
     "socket.io-client": "^3.1.3"
   }
 }
