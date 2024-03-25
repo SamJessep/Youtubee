@@ -1,5 +1,5 @@
 <script>
-import {BACKEND_URL, YT_URL, VideoData, SelectedFormat, Download, ClearDownload, WEB_SOCKET_PROTOCOL, BACKEND_PROTOCOL} from './store.js'
+import {BACKEND_URL, VideoData, SelectedFormat, Download} from './store.js'
 import {io} from "socket.io-client"
 import ConversionStatusIndicator from './ConversionStatusIndicator.svelte'
 import InputBar from './InputBar.svelte'
@@ -8,10 +8,10 @@ import Preview from './Preview.svelte';
 import { fly, fade } from 'svelte/transition';
 import ContactBar from 'contact-bar'
 
-
-var socket = io(WEB_SOCKET_PROTOCOL+BACKEND_URL);
+const urlWithoutProtocol = BACKEND_URL.replace(/^https?:\/\//i, '')
+var socket = io("wss://"+urlWithoutProtocol);
 let conversionProgress = 0
-//Download.set({status:"ready", url:"TEST"})
+
 function Load(data){
 		socket.emit('setup', data.detail.url, (data)=>{
 			$VideoData = {
@@ -29,7 +29,7 @@ function Start(){
 	tmpData.selectedFormat = $SelectedFormat
 	tmpData.notificationSubscription = userSubscription
 	socket.emit('get download url', tmpData, (url)=>{
-		Download.set({status:"ready",url:BACKEND_PROTOCOL+BACKEND_URL+url})
+		Download.set({status:"ready",url:BACKEND_URL+url})
 		window.location.href=$Download.url
 	})
 }

@@ -1,5 +1,5 @@
 <script>
-import {Download, BACKEND_URL} from './store.js'
+import {Download} from './store.js'
 export let progress = 0;
 </script>
 

@@ -68,7 +68,7 @@ label{
 </style>
 
 <script>
-import {BACKEND_URL, YT_URL, VideoData, ClearDownload, BACKEND_PROTOCOL} from './store.js';
+import {BACKEND_URL, YT_URL, VideoData, ClearDownload} from './store.js';
 import StatusMessage from './StatusMessage.svelte'
 import { createEventDispatcher } from 'svelte';
 const dispatch = createEventDispatcher();
@@ -105,7 +105,7 @@ async function Validate(e){
 	lastValue = currentValue
   let valueIsURL = currentValue.includes('youtube') || currentValue.includes('youtu.be')
   let url = valueIsURL ? currentValue : YT_URL+currentValue
-  let verifyUrl = BACKEND_PROTOCOL+BACKEND_URL+"/validate?url=" + url
+  let verifyUrl = BACKEND_URL+"/validate?url=" + url
 	let res = await fetch(verifyUrl)
 	let text = await res.text()
   inputStatus = text
