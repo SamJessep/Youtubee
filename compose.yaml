@@ -1,18 +1,16 @@
-version: '3'
-
 services:
   youtubee_back_end:
     build: back-end
     ports:
-      - "1001:1001"
-      - "1002:1002"
+      - "2001:2001"
     environment:
       - YOUTUBEE_FRONT_END_URL=https://youtubee.nex.sh
+      - PORT=2001
 
   youtubee_front_end:
     build: front-end
     ports:
       - "1011:80"
-      - "1012:443"
+      - "2011:443"
     environment:
       - YOUTUBEE_BACK_END_URL=https://youtubee.nex.sh:1001
