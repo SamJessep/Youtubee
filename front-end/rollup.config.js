@@ -45,7 +45,7 @@ export default {
 			}
 		}),
 		replace({
-      'process.env.YOUTUBEE_BACKEND_URL': JSON.stringify(process.env.YOUTUBEE_BACKEND_URL || "http://localhost:5050/"),
+      'process.env.YOUTUBEE_BACK_END_URL': JSON.stringify(process.env.YOUTUBEE_BACK_END_URL || "http://localhost:5050"),
     }),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance

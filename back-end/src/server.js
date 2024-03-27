@@ -7,7 +7,7 @@ const YT = require('ytdl-core');
 const fs = require("fs");
 const io = require('socket.io')(server, {
   cors: {
-    origin: "*",
+    origin: process.env.YOUTUBEE_FRONT_END_URL || "http://localhost:5000",
     methods: ["GET", "POST"]
   }
 });

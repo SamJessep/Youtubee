@@ -7,9 +7,10 @@ import DropDown from './DropDown.svelte';
 import Preview from './Preview.svelte';
 import { fly, fade } from 'svelte/transition';
 import ContactBar from 'contact-bar'
+  import PwaBanner from './PWABanner.svelte';
 
-const urlWithoutProtocol = BACKEND_URL.replace(/^https?:\/\//i, '')
-var socket = io("wss://"+urlWithoutProtocol);
+
+var socket = io(BACKEND_URL);
 let conversionProgress = 0
 
 function Load(data){
@@ -39,20 +40,9 @@ socket.on('convert progress', (msg)=>{
 	Download.set({status:"converting", progress:msg.percent})
 })
 
-const LOCALSTORAGE_BLOCK_PWA_POPUP = "pwa_blocked"
 
-var showPWABanner = false
-var InstallPwa = ()=>console.error("PWA wasnt ready to be installed")
-const ShowPWABanner = e =>{
-	e.preventDefault()
-	showPWABanner= !localStorage.getItem(LOCALSTORAGE_BLOCK_PWA_POPUP) ?? true
-	InstallPwa = ()=>e.prompt()
-}
 
-const DontShowPwaBannerAgain = () =>{
-	showPWABanner=false
-	localStorage.setItem(LOCALSTORAGE_BLOCK_PWA_POPUP, true)
-}
+
 
 </script>
 
@@ -86,13 +76,7 @@ const DontShowPwaBannerAgain = () =>{
 
 
 <div class="fixedbar">
-	{#if showPWABanner}
-		<aside class="banner" transition:fly="{{ x: 200, duration: 1000 }}">
-			Did you know, if you <span style="color:purple; cursor:pointer;" on:click={InstallPwa}>install</span> youtubee you can download videos via the youtube app
-			<button on:click={()=>showPWABanner=false}>Close</button>
-			<button on:click={DontShowPwaBannerAgain}>Dont show again</button>
-		</aside>
-	{/if}
+	<PwaBanner/>
 	{#if $VideoData}
 	<div id="actionContainer" transition:fly="{{ y: 200, duration: 1000 }}">
 		{#if !$Download.status}
@@ -109,7 +93,7 @@ const DontShowPwaBannerAgain = () =>{
 </div>
 
 
-<svelte:window on:beforeinstallprompt={e=>ShowPWABanner(e)} />
+
 
 <style>
 
@@ -133,6 +117,7 @@ footer.bottomButtonShown{
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 #actionContainer{
 	width: 100%;
 	height: 4rem;
@@ -145,22 +130,6 @@ footer.bottomButtonShown{
 	font-size: 2rem;
   text-align: center;
 }
-
-.banner button{
-	color:white;
-	background-color: #4e23a0;
-	border: solid 2px #4e23a0;
-	border-radius: 0.5rem;
-}
-
-.banner{
-	padding: 1rem;
-	background-color: #e0e0e0f5;
-	border-radius: 12px;
-	margin: 0.5rem;
-	box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
-}
-
 
 .fixedbar{
 	display:flex;

@@ -11,8 +11,7 @@
 		{
 				"src": "/icons/mask-android-chrome-256x256.png",
 				"sizes": "256x256",
-				"type": "image/png",
-				"purpose": "any maskable"
+				"type": "image/png"
 		},
 		{
 			"src": "/icons/android-chrome-512x512.png",
@@ -23,9 +22,23 @@
 			"src": "/icons/mask-android-chrome-787x787.png",
 			"sizes": "787x787",
 			"type": "image/png",
-			"purpose": "any maskable"
+			"purpose": "maskable"
 		}
 	],
+	"screenshots": [
+    {
+      "src": "/screenshots/mobile.png",
+      "type": "image/png",
+      "sizes": "621x1378",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/desktop.png",
+      "type": "image/png",
+      "sizes": "2418x1900",
+      "form_factor": "wide"
+    }
+  ],
 	"theme_color": "#350093",
 	"background_color": "#350093",
 	"display": "fullscreen",
