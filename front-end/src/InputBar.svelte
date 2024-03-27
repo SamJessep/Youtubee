@@ -12,7 +12,7 @@
         id="videoInput"
         class="input"
         class:is-success={inputStatus == "valid"}
-        class:is-danger={inputStatus == "invalid"}
+        class:is-danger={["invalid", "error"].includes(inputStatus)}
         placeholder="Paste a Youtube video url here"
         autocomplete='off'
         bind:value={currentValue}
@@ -24,13 +24,15 @@
       <span class="icon is-small is-right">
         <i class="fas"
           class:fa-check={inputStatus == "valid"}
-          class:fa-exclamation-triangle={inputStatus == "invalid"}
+          class:fa-exclamation-triangle={["invalid", "error"].includes(inputStatus)}
         ></i>
       </span>
     </div>
   </div>
   {#if inputStatus == "invalid"}
-  <StatusMessage message={INVALID_URL_MESSAGE} state="error"/>
+    <StatusMessage message={INVALID_URL_MESSAGE} state="error"/>
+  {:else if inputStatus == "error"}
+    <StatusMessage message={ERROR_MESSAGE()} state="error"/>
   {/if}
 </div>
 
@@ -82,7 +84,18 @@ const INVALID_URL_MESSAGE = `
   "VIDEO_ID"
 ` 
 
+const ERROR_MESSAGE = ()=>{
+  return `
+  Opps something went wrong... 
+  <details>
+    <summary style="font-size small; color:grey">More details</summary>
+    ${errorMessage}
+  </details>
+  `
+}
+
 export let inputStatus = '';
+let errorMessage = ''
 let initial = true;
 let hasStatus = true;
 
@@ -106,9 +119,15 @@ async function Validate(e){
   let valueIsURL = currentValue.includes('youtube') || currentValue.includes('youtu.be')
   let url = valueIsURL ? currentValue : YT_URL+currentValue
   let verifyUrl = BACKEND_URL+"/validate?url=" + url
-	let res = await fetch(verifyUrl)
-	let text = await res.text()
-  inputStatus = text
+  try{
+    let res = await fetch(verifyUrl)
+    let text = await res.text()
+    inputStatus = text
+    errorMessage = ""
+  }catch(e){
+    inputStatus = 'error'
+    errorMessage = e 
+  }
 	if(text == 'valid'){
 		LoadValidURL(url)
 	}else{

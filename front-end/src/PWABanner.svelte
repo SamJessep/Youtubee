@@ -2,8 +2,8 @@
   import { fly } from 'svelte/transition';
 
   const LOCALSTORAGE_BLOCK_PWA_POPUP = "pwa_blocked"
-  let showPWABanner = true
-
+  
+  let showPWABanner = false
   let InstallPwa = ()=>console.error("PWA wasnt ready to be installed")
   const showBanner = e =>{
     e.preventDefault()
