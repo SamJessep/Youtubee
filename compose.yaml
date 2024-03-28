@@ -16,3 +16,4 @@ services:
       - YOUTUBEE_FRONT_END_URL=http://192.168.4.101:1001
       #- YOUTUBEE_FRONT_END_URL=https://youtubee.nex.sh
       - PORT=2011
+      - YOUTUBEE_DOWNLOAD_PATH=/downloads/

@@ -21,6 +21,7 @@ const hostname = os.hostname();
 const {Setup, Download, GetQuality, Convert} = require('./downloader.js')
 
 const SERVER_PORT = process.env.PORT || 5050;
+const DOWNLOAD_PATH = process.env.YOUTUBEE_DOWNLOAD_PATH || 'videos/';
 const YT_URL = "https://www.youtube.com/watch?v="
 var Sockets = []
 
@@ -119,7 +120,7 @@ app.get('/download',async (req, res) => {
   let outFileName
   let contentLength
   if(combinedFile){
-    const fileName = __dirname+"/"+combinedFile;
+    const fileName = DOWNLOAD_PATH+combinedFile;
     var extension = path.extname(fileName);
     var name = path.basename(fileName,extension);
     var stats = fs.statSync(fileName)

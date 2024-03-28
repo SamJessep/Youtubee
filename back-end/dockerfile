@@ -3,5 +3,6 @@ WORKDIR /app
 COPY package*.json .
 RUN npm i
 COPY . .
-RUN mkdir /app/src/videos
+RUN mkdir /downloads
+RUN chmod /downloads 777
 CMD ["npm", "run", "start"]

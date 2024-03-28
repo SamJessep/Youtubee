@@ -3,6 +3,7 @@ const ffmpeg = require('ffmpeg-static');
 const cp = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const DOWNLOAD_PATH = process.env.YOUTUBEE_DOWNLOAD_PATH || 'videos/';
 
 const GetQuality = async(url, itag)=>{
   var stats = await Setup(url)
@@ -57,10 +58,11 @@ const GetAudioStream = (url, quality)=>{
 
 const GetMergedStream = (videoStream, audioStream, duration, title, progressMethod, doneMethod)=>{
   let done = false;
-  const file = "./videos/"+title.replace(/[^a-z0-9]/gi, '_')+".mp4"
-  if(fs.existsSync(file)){
-    console.log(file, "already exists, no need to convert")
-    return doneMethod(file)
+  const filename = title.replace(/[^a-z0-9]/gi, '_')+".mp4"
+  const path = DOWNLOAD_PATH+filename
+  if(fs.existsSync(path)){
+    console.log(filename, "already exists, no need to convert")
+    return doneMethod(filename)
   }
   const ffmpegProcess = cp.spawn(ffmpeg, [
     // Remove ffmpeg's console spamming
@@ -75,7 +77,7 @@ const GetMergedStream = (videoStream, audioStream, duration, title, progressMeth
   '-map', '0:a',
   '-map', '1:v',
   '-codec', 'copy',
-   file,
+  path,
   ], {
     windowsHide: true,
     stdio: [
@@ -87,9 +89,9 @@ const GetMergedStream = (videoStream, audioStream, duration, title, progressMeth
   });
   ffmpegProcess.on('error', (e)=>console.log(e))
   ffmpegProcess.on('close', () => {
-    console.log('Finished Converting', file);
+    console.log('Finished Converting', filename);
     done = true
-    doneMethod(file)
+    doneMethod(filename)
   });
   audioStream.pipe(ffmpegProcess.stdio[4]);
   videoStream.pipe(ffmpegProcess.stdio[5]);
