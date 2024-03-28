@@ -3,4 +3,5 @@ WORKDIR /app
 COPY package*.json .
 RUN npm i
 COPY . .
+RUN mkdir /app/src/video
 CMD ["npm", "run", "start"]
