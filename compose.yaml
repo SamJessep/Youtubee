@@ -1,5 +1,5 @@
 services:
-  youtubee_front_end:
+  frontend:
     build: front-end
     ports:
       - "1001:80"
@@ -7,7 +7,7 @@ services:
     environment:
       - YOUTUBEE_BACK_END_URL=http://192.168.4.101:2011
 
-  youtubee_back_end:
+  backend:
     build: back-end
     ports:
       - "2011:2011"
