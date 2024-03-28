@@ -124,15 +124,15 @@ async function Validate(e){
     let text = await res.text()
     inputStatus = text
     errorMessage = ""
+    if(text == 'valid'){
+      LoadValidURL(url)
+    }else{
+      VideoData.set(undefined)
+    }
   }catch(e){
     inputStatus = 'error'
     errorMessage = e 
   }
-	if(text == 'valid'){
-		LoadValidURL(url)
-	}else{
-		VideoData.set(undefined)
-	}
 }
 
 function LoadValidURL(url){

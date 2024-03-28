@@ -1,5 +1,5 @@
 const CACHE_NAME="youtubee"
-const BACKEND_URL = process.env.YOUTUBEE_BACKEND_URL;
+const BACKEND_URL = process.env.YOUTUBEE_BACK_END_URL;
 self.addEventListener('install', function(e) {
  e.waitUntil(
    caches.open(CACHE_NAME).then(function(cache) {
