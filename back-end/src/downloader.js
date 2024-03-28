@@ -116,15 +116,14 @@ function getSeconds(timeString){
 }
 
 const CleanUpStorage = ()=>{
-  const directoryPath = path.join(__dirname, 'videos');
-  fs.readdir(directoryPath, (err, files)=>{
+  fs.readdir(DOWNLOAD_PATH, (err, files)=>{
     //handling error
     if (err) {
       return console.log('Unable to scan directory: ' + err);
     }
     //listing all files using forEach
     files.forEach(function (file) {
-      let f_path = path.join(__dirname, 'videos/'+file)
+      let f_path = path.join(DOWNLOAD_PATH, file)
       const stats = fs.statSync(f_path)
       let ageMs = new Date() - new Date(stats.mtime)
       if(ageMs>15*60*1000){
