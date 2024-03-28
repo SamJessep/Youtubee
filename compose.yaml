@@ -1,11 +1,12 @@
 services:
   frontend:
-    build: front-end
+    build:
+      context: front-end
+      args:
+        - BACKEND_URL=http://192.168.4.101:2011
     ports:
       - "1001:80"
       - "2001:443"
-    environment:
-      - YOUTUBEE_BACK_END_URL=http://192.168.4.101:2011
 
   backend:
     build: back-end
