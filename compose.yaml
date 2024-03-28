@@ -1,16 +1,19 @@
 services:
   youtubee_front_end:
-    build: front-end
+    build: 
+      context: front-end
+      args:
+        - BACKEND_URL=http://192.168.4.101:1001
+        #- BACKEND_URL=https://youtubee.nex.sh:1001
     ports:
       - "1001:80"
       - "2001:443"
-    environment:
-      - YOUTUBEE_BACK_END_URL=https://youtubee.nex.sh:1001
 
   youtubee_back_end:
     build: back-end
     ports:
       - "2011:2011"
     environment:
-      - YOUTUBEE_FRONT_END_URL=https://youtubee.nex.sh
+      - YOUTUBEE_FRONT_END_URL=http://192.168.4.101
+      #- YOUTUBEE_FRONT_END_URL=https://youtubee.nex.sh
       - PORT=2011
