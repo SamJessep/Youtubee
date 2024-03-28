@@ -3,8 +3,8 @@ services:
     build: 
       context: front-end
       args:
-        - BACKEND_URL=http://192.168.4.101:1001
-        #- BACKEND_URL=https://youtubee.nex.sh:1001
+        - BACKEND_URL=http://192.168.4.101:2011
+        #- BACKEND_URL=https://youtubee.nex.sh:2011
     ports:
       - "1001:80"
       - "2001:443"

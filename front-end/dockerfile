@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm i
 COPY . .
 ARG BACKEND_URL = 'http://localhost:5050'
-ENV YOUTUBEE_BACKEND_URL ${BACKEND_URL}
+ENV YOUTUBEE_BACK_END_URL ${BACKEND_URL}
 RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
