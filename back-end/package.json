@@ -15,7 +15,7 @@
     "express": "^4.17.2",
     "ffmpeg-static": "^4.4.1",
     "fluent-ffmpeg": "^2.1.2",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.20",
     "socket.io": "^4.4.1",
     "web-push": "^3.4.5",
     "ytdl": "^1.4.1",
